@@ -170,7 +170,7 @@ def top_categories(
     return result
 
 
-def compute_quality_flags(summary: DatasetSummary, missing_df: pd.DataFrame) -> Dict[str, Any]:
+def compute_quality_flags(summary: DatasetSummary, missing_df: pd.DataFrame, has_high_cardinality_categoricals_th: float = 0.8) -> Dict[str, Any]:
     """
     Простейшие эвристики «качества» данных:
     - слишком много пропусков;
@@ -184,47 +184,19 @@ def compute_quality_flags(summary: DatasetSummary, missing_df: pd.DataFrame) -> 
     max_missing_share = float(missing_df["missing_share"].max()) if not missing_df.empty else 0.0
     flags["max_missing_share"] = max_missing_share
     flags["too_many_missing"] = max_missing_share > 0.5
+    flags['has_constant_columns'] = (missing_df.nunique() == 1).sum() > 0
+    flags['has_high_cardinality_categoricals'] = (missing_df.nunique() / len(missing_df)).mean() >= has_high_cardinality_categoricals_th
 
-    # Эвристика 1: has_constant_columns
-    constant_cols = [col.name for col in summary.columns if col.unique <= 1]
-    flags["has_constant_columns"] = len(constant_cols) > 0
-    # Сохраняем список таких колонок для отладки/отчета
-    flags["constant_columns_list"] = constant_cols
-
-    # Эвристика 2: has_suspicious_id_duplicates
-    suspicious_ids = []
-    for col in summary.columns:
-        name_lower = col.name.lower()
-        if name_lower == "id" or name_lower.endswith("_id") or name_lower.startswith("id_"):
-            if col.unique < col.non_null:
-                suspicious_ids.append(col.name)
-
-    flags["has_suspicious_id_duplicates"] = len(suspicious_ids) > 0
-    flags["suspicious_id_columns"] = suspicious_ids
-
+    # Простейший «скор» качества
     score = 1.0
-    score -= max_missing_share
-
-    if flags["too_few_rows"]:
-        score -= 0.1
-    if flags["too_many_columns"]:
-        score -= 0.1
-
-    # Штрафы за новые флаги
-    if flags["has_constant_columns"]:
+    score -= max_missing_share  # чем больше пропусков, тем хуже
+    if summary.n_rows < 100:
         score -= 0.2
-    if flags["has_suspicious_id_duplicates"]:
-        score -= 0.3
+    if summary.n_cols > 100:
+        score -= 0.1
 
-    # Ограничиваем score от 0 до 1
     score = max(0.0, min(1.0, score))
     flags["quality_score"] = score
-
-    # Для отладки
-    print("\n--- DEBUG: Quality Flags ---")
-    for k, v in flags.items():
-        print(f"{k}: {v}")
-    print("----------------------------\n")
 
     return flags
 
