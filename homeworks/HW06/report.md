@@ -23,8 +23,8 @@
 
 Были сравнены следующие модели с указанными гиперпараметрами:
 
-- **DummyClassifier** (baseline) – стратегия `stratified`
-- **LogisticRegression** (baseline из S05) – `C=1.0`, `max_iter=1000`
+- **DummyClassifier** (baseline) – стратегия `most_frequent`
+- **LogisticRegression** (baseline из S05) – `C=1.0`, `max_iter=2000`
 - **DecisionTreeClassifier** – `max_depth=10`, `min_samples_leaf=24`
 - **RandomForestClassifier** – `n_estimators=50`, `max_depth=10`, `max_features='sqrt'`
 - **GradientBoostingClassifier** – `n_estimators=50`, `learning_rate=0.1`, `max_depth=5`
