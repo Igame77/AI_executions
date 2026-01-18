@@ -1,0 +1,107 @@
+{
+  "dataset_1": {
+    "data_shape": [
+      12000,
+      8
+    ],
+    "best_model": {
+      "selected_model": "KMeans",
+      "selection_criteria": "silhouette",
+      "selected_metric_value": 0.5216395622404242,
+      "n_clusters": 2,
+      "n_noise": 0,
+      "model_params": {
+        "n_clusters": 2,
+        "random_state": 42
+      }
+    },
+    "all_models_evaluation": {
+      "KMeans": {
+        "n_clusters": 2,
+        "n_noise": 0,
+        "silhouette": 0.5216395622404242,
+        "davies_bouldin": 0.6853295219054457,
+        "calinski_harabasz": 11786.954622671532,
+        "noise_ratio": null
+      },
+      "DBSCAN": {
+        "n_clusters": 6,
+        "n_noise": 3774,
+        "silhouette": 0.37094709104884954,
+        "davies_bouldin": 0.9579347132872101,
+        "calinski_harabasz": 5563.126364203319,
+        "noise_ratio": 0.3145
+      }
+    }
+  },
+  "dataset_2": {
+    "data_shape": [
+      8000,
+      3
+    ],
+    "best_model": {
+      "selected_model": "DBSCAN",
+      "selection_criteria": "silhouette",
+      "selected_metric_value": 0.19523051842190092,
+      "n_clusters": 3,
+      "n_noise": 2449,
+      "model_params": {
+        "eps": 0.4,
+        "min_samples": 16
+      }
+    },
+    "all_models_evaluation": {
+      "KMeans": {
+        "n_clusters": 6,
+        "n_noise": 0,
+        "silhouette": 0.2678202442769679,
+        "davies_bouldin": 1.1198235530267437,
+        "calinski_harabasz": 2519.8986528368573,
+        "noise_ratio": null
+      },
+      "DBSCAN": {
+        "n_clusters": 3,
+        "n_noise": 2449,
+        "silhouette": 0.19523051842190092,
+        "davies_bouldin": 1.0987786634422887,
+        "calinski_harabasz": 1629.3914939619085,
+        "noise_ratio": 0.306125
+      }
+    }
+  },
+  "dataset_3": {
+    "data_shape": [
+      15000,
+      4
+    ],
+    "best_model": {
+      "selected_model": "KMeans",
+      "selection_criteria": "silhouette",
+      "selected_metric_value": 0.31553248183109267,
+      "n_clusters": 3,
+      "n_noise": 0,
+      "model_params": {
+        "n_clusters": 2,
+        "random_state": 42
+      }
+    },
+    "all_models_evaluation": {
+      "KMeans": {
+        "n_clusters": 3,
+        "n_noise": 0,
+        "silhouette": 0.31553248183109267,
+        "davies_bouldin": 1.1577832240211112,
+        "calinski_harabasz": 6957.158106946779,
+        "noise_ratio": null
+      },
+      "AgglomerativeClustering": {
+        "n_clusters": 2,
+        "n_noise": 0,
+        "silhouette": 0.42529612444453263,
+        "davies_bouldin": 0.8138020165811181,
+        "calinski_harabasz": 8.943143115556799,
+        "noise_ratio": null
+      }
+    }
+  }
+}
